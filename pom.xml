@@ -18,7 +18,7 @@
     <description>The shared common library.</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>24</java.version>
     </properties>
 
     <dependencies>
@@ -44,7 +44,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- For Jackson annotations like @JsonInclude -->
@@ -63,9 +62,23 @@
         </repository>
     </distributionManagement>
 
-    <!--
-    The <build> section with the spring-boot-maven-plugin has been completely REMOVED.
-    This ensures this project is packaged as a standard library JAR, not a runnable application.
-    -->
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <!-- This path tells the compiler to use Lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <!-- Version is managed by spring-boot-starter-parent -->
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
